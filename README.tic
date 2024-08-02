@@ -67,8 +67,8 @@ ray = {
  dist, --distance
  Rays = function()
  
-  rays=100
-  res=10
+  rays=100 --amount of radius
+  res=10 --block resolution (map)
   for i=0, rays, 1 do
    
    --radius starts at the player's position:
