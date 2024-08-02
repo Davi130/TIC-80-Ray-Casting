@@ -1,0 +1,117 @@
+local mp={} --map
+mp[0]={1,1,1,2,2,2,3,3,3,7,7,7,7,2}
+mp[1]={4,0,0,0,0,0,0,0,5,0,0,0,0,8}
+mp[2]={4,0,0,0,0,0,0,0,5,0,0,0,0,8}
+mp[3]={4,0,0,0,8,0,0,0,5,0,0,4,0,7}
+mp[4]={4,0,0,0,8,0,0,0,0,0,0,4,0,7}
+mp[5]={5,0,0,0,0,0,0,0,0,0,0,0,0,7}
+mp[6]={5,0,0,0,0,0,0,0,0,0,0,0,0,7}
+mp[7]={5,5,5,6,6,6,6,7,7,7,7,6,6,6}
+--map;0 void
+--map;1 wall, id color
+
+
+player = {
+ x=3,
+ y=2,
+ a=0, --angle
+ Move = function()
+ 
+  if btn(2) then --rotate to the left
+   player.a=player.a-0.1
+  end
+  if btn(3) then --totate to the right
+   player.a=player.a+0.1
+  end
+  
+  if btn(0) then --move forward
+   player.x=player.x+(0.1*
+   math.cos(player.a))
+   
+   player.y=player.y+(0.1*
+   math.sin(player.a))
+  end
+  if btn(0) and --colision btn(0)
+  mp[math.floor(player.y)]
+  [math.floor(player.x)]>0 then
+   player.x=player.x-(0.1*
+   math.cos(player.a))
+   
+   player.y=player.y-(0.1*
+   math.sin(player.a))
+  end
+  
+  if btn(1) then --move backward
+   player.x=player.x-(0.1*
+   math.cos(player.a))
+   
+   player.y=player.y-(0.1*
+   math.sin(player.a))
+  end
+  if btn(1) and --colision btn(1)
+  mp[math.floor(player.y)]
+  [math.floor(player.x)]>0 then
+   player.x=player.x+(0.1*
+   math.cos(player.a))
+   
+   player.y=player.y+(0.1*
+   math.sin(player.a))
+  end
+ 
+ end
+}
+
+ray = {
+ x,
+ y,
+ dist, --distance
+ Rays = function()
+ 
+  rays=100
+  res=10
+  for i=0, rays, 1 do
+   
+   --radius starts at the player's position:
+   ray.x=player.x
+   ray.y=player.y
+   --zero distance:
+   ray.dist=0
+   
+   while mp[math.floor(ray.y)]
+   [math.floor(ray.x)]<1 do --move radius to a wall
+   
+    ray.x=ray.x+(1/res*math.cos(
+    player.a+(-0.5+i/rays)))
+    
+    ray.y=ray.y+(1/res*math.sin(
+    player.a+(-0.5+i/rays)))
+    
+    ray.dist=ray.dist+1/res
+   end
+   rect( --wall
+    i*(240/rays),
+    136/2-(136-ray.dist*10)/2,
+    240/rays+1,
+    136-ray.dist*10,
+    mp[math.floor(ray.y)]
+    [math.floor(ray.x)]
+   )
+  end
+ 
+ end
+}
+
+function TIC()
+
+ cls(10)
+ rect( --floor
+  0,
+  136/2,
+  240,
+  126,
+  13
+ )
+ player.Move()
+ ray.Rays()
+
+end
